@@ -1,6 +1,8 @@
 package com.wrecker.newsapp.db.repositories
 
+import androidx.room.PrimaryKey
 import com.wrecker.newsapp.db.entity.Article
+import com.wrecker.newsapp.db.mapper.NetWorkMapper
 import com.wrecker.newsapp.db.source.local.dao.ArticleDao
 import com.wrecker.newsapp.db.source.remote.api.NewsAPI
 import com.wrecker.newsapp.ut.event.Event
@@ -12,7 +14,8 @@ import javax.inject.Inject
 @ViewModelScoped
 class NewsRepositories @Inject constructor(
     private val articleDao: ArticleDao,
-    private val newsAPI: NewsAPI
+    private val newsAPI: NewsAPI,
+    private val netWorkMapper: NetWorkMapper
 ): Repository {
     override suspend fun insertArticle(article: Article): Long {
         return articleDao.insertArticle(article)
@@ -22,18 +25,18 @@ class NewsRepositories @Inject constructor(
         return articleDao.deleteArticle(article)
     }
 
-    override suspend fun getArticle(): Flow<Event<List<Article>>> {
-        return flow {
-            this.emit(Event.Loading)
-            try {
-                /**
-                 * TODO(): need to implement caching logic here
-                 */
-            }catch (exception: Exception){
+    override suspend fun getArticle(): Flow<Event<List<Article>>> = flow {
+        emit(Event.Loading)
+        try {
+            emit(Event.Success(articleDao.getArticle()))
 
-            }
+        }catch (exception: Exception) {
+            emit(Event.Error("Something went wrongs", exception))
+
         }
     }
+
+
 
 
 }

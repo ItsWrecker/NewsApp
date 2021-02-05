@@ -1,6 +1,10 @@
 package com.wrecker.newsapp.di.module
 
 import com.wrecker.newsapp.BuildConfig
+import com.wrecker.newsapp.db.entity.Article
+import com.wrecker.newsapp.db.entity.NewsResponse
+import com.wrecker.newsapp.db.mapper.EntityMapper
+import com.wrecker.newsapp.db.mapper.NetWorkMapper
 import com.wrecker.newsapp.db.source.remote.api.NewsAPI
 import dagger.Module
 import dagger.Provides
@@ -14,11 +18,15 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    @Singleton
     @Provides
+    @Singleton
     fun provideNewsAPI(): NewsAPI {
         return Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BuildConfig.NEWS_API_BASE_URL).build().create(NewsAPI::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideNetworkMapper(): EntityMapper<NewsResponse, Article> =  NetWorkMapper()
 
 }

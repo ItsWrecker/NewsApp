@@ -1,5 +1,6 @@
 package com.wrecker.newsapp.di.module
 
+import com.wrecker.newsapp.db.mapper.NetWorkMapper
 import com.wrecker.newsapp.db.repositories.NewsRepositories
 import com.wrecker.newsapp.db.repositories.Repository
 import com.wrecker.newsapp.db.source.local.dao.ArticleDao
@@ -18,6 +19,7 @@ object RepositoriesModule {
     @ViewModelScoped
     fun provideNewsRepository(
         articleDao: ArticleDao,
-        newsAPI: NewsAPI
-    ) : Repository = NewsRepositories(articleDao = articleDao, newsAPI = newsAPI)
+        newsAPI: NewsAPI,
+        netWorkMapper: NetWorkMapper,
+    ) : Repository = NewsRepositories(articleDao = articleDao, newsAPI = newsAPI, netWorkMapper= netWorkMapper)
 }

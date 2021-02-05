@@ -1,6 +1,5 @@
 package com.wrecker.newsapp.db.source.remote.api
 
-import com.bumptech.glide.load.engine.Resource
 import com.wrecker.newsapp.BuildConfig
 import com.wrecker.newsapp.db.entity.NewsResponse
 import retrofit2.Response
