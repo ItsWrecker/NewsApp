@@ -3,6 +3,7 @@ package com.wrecker.newsapp.di.module
 import android.content.Context
 import androidx.room.Room
 import com.wrecker.newsapp.BuildConfig
+import com.wrecker.newsapp.db.source.local.dao.ArticleDao
 import com.wrecker.newsapp.db.source.local.database.NewsDatabase
 import dagger.Module
 import dagger.Provides
@@ -32,5 +33,5 @@ object NewsDatabaseModule {
     @Provides
     fun provideArticleDao(
         newsDatabase: NewsDatabase
-    ) = newsDatabase.getArticleDao()
+    ): ArticleDao = newsDatabase.getArticleDao()
 }
