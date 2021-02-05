@@ -9,17 +9,4 @@ sealed class Event<out R> {
     data class Error(val error: String, val cause: Exception? = null): Event<Nothing>()
     object Loading : Event<Nothing>()
 
-
-    var hasBeenHandled = false
-        private set // Allow external read but not write
-
-    fun getContentIfNotHandled(content: Any): Any? {
-        return if (hasBeenHandled){
-            null
-        }else{
-            hasBeenHandled = true
-            content
-        }
-    }
-
 }

@@ -9,6 +9,8 @@ import com.google.common.truth.Truth.assertThat
 import com.wrecker.newsapp.db.entity.Article
 import com.wrecker.newsapp.db.entity.Source
 import com.wrecker.newsapp.db.source.local.database.NewsDatabase
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.flow.toList
@@ -18,25 +20,27 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import javax.inject.Inject
+import javax.inject.Named
 
 @ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
 @SmallTest
+@HiltAndroidTest
 class ArticleDaoTest {
 
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var newsDatabase: NewsDatabase
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+    @Inject
+    @Named("test_db")
+    lateinit var newsDatabase: NewsDatabase
     private lateinit var articleDao: ArticleDao
 
     @Before
     fun setup() {
-        newsDatabase = Room.inMemoryDatabaseBuilder(
-            ApplicationProvider.getApplicationContext(),
-            NewsDatabase::class.java
-        ).allowMainThreadQueries().build()
-
+        hiltRule.inject()
         articleDao = newsDatabase.getArticleDao()
     }
 
