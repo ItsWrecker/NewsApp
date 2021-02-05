@@ -26,7 +26,9 @@ object NewsDatabaseModule {
         context,
         NewsDatabase::class.java,
         BuildConfig.NEWS_DB_NAME
-    ).allowMainThreadQueries().build()
+    ).allowMainThreadQueries()
+        .fallbackToDestructiveMigration()
+        .build()
 
 
     @Singleton

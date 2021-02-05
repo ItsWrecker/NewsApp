@@ -9,7 +9,7 @@ import com.wrecker.newsapp.db.source.local.dao.ArticleDao
 
 @Database(
     entities = [Article::class],
-    version = 1,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

@@ -1,6 +1,5 @@
 package com.wrecker.newsapp.db.repositories
 
-import androidx.room.PrimaryKey
 import com.wrecker.newsapp.db.entity.Article
 import com.wrecker.newsapp.db.mapper.NetWorkMapper
 import com.wrecker.newsapp.db.source.local.dao.ArticleDao
@@ -25,18 +24,27 @@ class NewsRepositories @Inject constructor(
         return articleDao.deleteArticle(article)
     }
 
-    override suspend fun getArticle(): Flow<Event<List<Article>>> = flow {
-        emit(Event.Loading)
-        try {
-            emit(Event.Success(articleDao.getArticle()))
-
-        }catch (exception: Exception) {
-            emit(Event.Error("Something went wrongs", exception))
-
+    override suspend fun getArticle(pageNumber: Int): Flow<Event<List<Article>>> {
+        return flow {
+            emit(Event.Loading)
+            try {
+                val apiResponse = newsAPI.getNewsResponse(page = pageNumber)
+                if (apiResponse.isSuccessful){
+                    val articles = apiResponse.body()?.articles
+                    articles?.onEach {
+                        articleDao.insertArticle(it)
+                    }
+                }else{
+                    emit(Event.Error("Network: ERROR"))
+                }
+                emit(Event.Success(articleDao.getArticle())).let {
+                    return@flow
+                }
+            }catch (exception: Exception){
+                emit(Event.Error("Not good",exception))
+            }
         }
     }
-
-
 
 
 }

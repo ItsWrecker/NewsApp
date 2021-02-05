@@ -4,7 +4,6 @@ package com.wrecker.newsapp.ui.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wrecker.newsapp.db.entity.Article
-import com.wrecker.newsapp.db.entity.NewsResponse
 import com.wrecker.newsapp.db.repositories.Repository
 import com.wrecker.newsapp.ut.event.Event
 import com.wrecker.newsapp.ut.event.MainStateEvent
@@ -23,15 +22,14 @@ class MainViewModel @Inject constructor(
     private val _event = MutableStateFlow<Event<List<Article>>>(Event.Loading)
     val event: StateFlow<Event<List<Article>>> = _event
 
-    private val _articles = MutableStateFlow<Event<NewsResponse>>(Event.Loading)
-    val articles: StateFlow<Event<NewsResponse>> = _articles
-
+    var pageNumber = 1
 
      fun setStateEvent(mainStateEvent: MainStateEvent){
+         _event.value = Event.Loading
         viewModelScope.launch {
             when(mainStateEvent){
                 MainStateEvent.GetArticle ->{
-                    repositories.getArticle().onEach {
+                    repositories.getArticle(pageNumber).onEach {
                         _event.value = it
                     }.launchIn(viewModelScope)
                 }
@@ -41,7 +39,4 @@ class MainViewModel @Inject constructor(
             }
         }
     }
-
-
-
 }

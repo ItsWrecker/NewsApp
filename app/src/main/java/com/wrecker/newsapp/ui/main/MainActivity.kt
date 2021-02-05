@@ -15,6 +15,7 @@ import com.wrecker.newsapp.ut.event.Event
 import com.wrecker.newsapp.ut.event.MainStateEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.observeOn
 import timber.log.Timber
 
 @AndroidEntryPoint
@@ -36,17 +37,18 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launchWhenStarted {
             //_viewModel.setStateEvent(MainStateEvent.GetArticle)
 
+
             _viewModel.event.collect { event ->
-                Toast.makeText(this@MainActivity, event.toString(),Toast.LENGTH_LONG).show()
                 when(event){
                     is Event.Success -> {
+                        Toast.makeText(this@MainActivity, event.value.toString(),Toast.LENGTH_LONG).show()
                         event.value.onEach {
-                            Toast.makeText(this@MainActivity, it.description,Toast.LENGTH_LONG).show()
+                           // Toast.makeText(this@MainActivity, it.description,Toast.LENGTH_LONG).show()
 
                         }
                     }
                     is Event.Error -> {
-                        Toast.makeText(this@MainActivity, "error",Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@MainActivity, event.cause.toString(),Toast.LENGTH_LONG).show()
 
                     }
                     Event.Loading -> {
