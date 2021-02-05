@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 
-        _viewModel.setStateEvent(MainStateEvent.GetArticle)
+        //_viewModel.setStateEvent(MainStateEvent.GetArticle)
 
         lifecycleScope.launchWhenStarted {
             //_viewModel.setStateEvent(MainStateEvent.GetArticle)
