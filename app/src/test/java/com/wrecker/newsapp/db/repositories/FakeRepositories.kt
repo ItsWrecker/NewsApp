@@ -31,15 +31,8 @@ class FakeRepositories : Repository{
         this.article.remove(article)
     }
 
-    override suspend fun getArticle(): Flow<Event<List<Article>>> {
-        return flow {
-            this.emit(Event.Loading)
-            try {
-                this.emit(Event.Success(article))
-            } catch (exception: Exception){
-                this.emit(Event.Error("Something went wrong: Network"))
-            }
-        }
+    override suspend fun getArticle(pageNumber: Int): Flow<Event<List<Article>>> {
+        TODO("Not yet implemented")
     }
 
 

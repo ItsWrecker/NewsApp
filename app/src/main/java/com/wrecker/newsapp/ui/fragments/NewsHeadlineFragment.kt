@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.wrecker.newsapp.R
 import com.wrecker.newsapp.ui.adapter.NewsAdapter
 import com.wrecker.newsapp.ui.main.MainViewModel
@@ -24,17 +25,24 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
 
     private lateinit var newsAdapter: NewsAdapter
     private lateinit var newsHeadlineRecyclerView: RecyclerView
+    private lateinit var refreshRecyclerView: SwipeRefreshLayout
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         _viewModel.setStateEvent(MainStateEvent.GetArticle)
+        newsHeadlineRecyclerView = view.findViewById(R.id.newsHeadlineRecyclerView)
+        refreshRecyclerView = view.findViewById(R.id.refreshRecyclerView)
+        setupRecyclerView()
+        refreshView()
         lifecycleScope.launchWhenStarted {
             _viewModel.event.collect { event->
                 when(event){
                     is Event.Success -> {
                         newsAdapter.differ.submitList(event.value)
+                        refreshRecyclerView.isRefreshing = false
+
                     }
                     is Event.Error -> {
 
@@ -65,4 +73,14 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
             layoutManager = LinearLayoutManager(activity)
         }
     }
+
+    private fun refreshView() {
+        refreshRecyclerView.setOnRefreshListener {
+            refreshRecyclerView.isRefreshing = true
+            _viewModel.setStateEvent(MainStateEvent.GetArticle)
+            refreshRecyclerView.isRefreshing = false
+
+        }
+    }
+
 }

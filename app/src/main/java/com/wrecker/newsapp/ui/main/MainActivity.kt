@@ -6,10 +6,12 @@ import android.util.EventLog
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.wrecker.newsapp.R
+import com.wrecker.newsapp.databinding.ActivityMainBinding
 import com.wrecker.newsapp.db.entity.Article
 import com.wrecker.newsapp.ut.event.Event
 import com.wrecker.newsapp.ut.event.MainStateEvent
@@ -22,21 +24,23 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity() {
 
     private val _viewModel: MainViewModel by viewModels()
+    private lateinit var _binding: ActivityMainBinding
+
 
     companion object {
         final val TAG: String = MainActivity::class.java.name
 
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
 
-
+        _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         //_viewModel.setStateEvent(MainStateEvent.GetArticle)
+        setSupportActionBar(_binding.toolbar)
 
         lifecycleScope.launchWhenStarted {
             //_viewModel.setStateEvent(MainStateEvent.GetArticle)
-
 
             _viewModel.event.collect { event ->
                 when(event){
