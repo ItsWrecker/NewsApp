@@ -13,6 +13,6 @@ interface ArticleDao {
     @Delete
     suspend fun deleteArticle(article: Article)
 
-    @Query("SELECT * FROM article")
+    @Query("SELECT * FROM article ORDER BY publishedAt DESC")
     fun getArticle(): List<Article>
 }

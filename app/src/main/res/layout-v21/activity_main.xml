@@ -6,24 +6,22 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorGrey"
-        tools:context=".ui.main.MainActivity">
+        tools:context=".ui.main.MainActivity"
+        android:background="@color/colorGrey">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appBarLayout"
+            android:background="@color/colorGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorGrey"
-            app:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
+                android:elevation="0dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:elevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -35,23 +33,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:defaultNavHost="true"
-            app:layout_constraintBottom_toBottomOf="@id/appBarLayout"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
+            app:layout_constraintVertical_bias="0.0"
             app:navGraph="@navigation/main_graph" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/appBarLayout"
-            app:layout_constraintEnd_toStartOf="@+id/appBarLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

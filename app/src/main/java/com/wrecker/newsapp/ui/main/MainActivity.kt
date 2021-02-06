@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.EventLog
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
@@ -38,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         //_viewModel.setStateEvent(MainStateEvent.GetArticle)
         setSupportActionBar(_binding.toolbar)
+        supportActionBar?.elevation = 0F
 
         lifecycleScope.launchWhenStarted {
             //_viewModel.setStateEvent(MainStateEvent.GetArticle)
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     Event.Loading -> {
-                        Toast.makeText(this@MainActivity, "Loading",Toast.LENGTH_LONG).show()
+                        _binding.progressBar?.visibility = View.VISIBLE
                     }
                 }
             }

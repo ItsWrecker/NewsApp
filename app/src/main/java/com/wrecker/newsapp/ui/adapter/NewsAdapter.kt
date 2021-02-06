@@ -1,12 +1,10 @@
 package com.wrecker.newsapp.ui.adapter
 
 
-import android.provider.ContactsContract
+
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.databinding.DataBindingUtil
+import android.widget.Toast
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +21,11 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
         fun bind(article: Article) {
             with(binding){
                 newsTitle.text = article.title
+                newsDescription.text = article.description
+                newsAuthor.text = "Source: ${article.author?: "Unknown"}"
+
             }
+
         }
     }
 
@@ -66,5 +68,18 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position]
         holder.bind(article)
+
+        holder.itemView.apply {
+            Glide.with(this).load(article.urlToImage)
+                .centerCrop()
+                .into(findViewById(R.id.newPreviewImage))
+            setOnClickListener {
+                onItemClickListener?.let {
+                    it(article)
+                }
+            }
+        }
+
+
     }
 }

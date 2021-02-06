@@ -2,6 +2,7 @@ package com.wrecker.newsapp.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 
 @Entity
@@ -16,4 +17,4 @@ data class Article(
     val title: String ? =null,
     val url: String ? =null,
     val urlToImage: String ? =null
-)
+): Serializable

@@ -1,6 +1,9 @@
 package com.wrecker.newsapp.ui.main
 
 
+import android.view.View
+import android.widget.ProgressBar
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wrecker.newsapp.db.entity.Article
@@ -38,5 +41,10 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun showProgressBar(progressBar: ProgressBar, visibility: Boolean) {
+        if (visibility) progressBar.visibility = View.VISIBLE
+        else progressBar.visibility = View.GONE
     }
 }

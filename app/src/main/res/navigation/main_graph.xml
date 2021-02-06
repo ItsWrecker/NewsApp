@@ -14,6 +14,9 @@
         <action
             android:id="@+id/navigateToError"
             app:destination="@id/errorFragment" />
+        <argument
+            android:name="article"
+            app:argType="com.wrecker.newsapp.db.entity.Article" />
     </fragment>
     <fragment
         android:id="@+id/errorFragment"
@@ -22,5 +25,12 @@
     <fragment
         android:id="@+id/newsDetailsFragment"
         android:name="com.wrecker.newsapp.ui.fragments.NewsDetailsFragment"
-        android:label="NewsDetailsFragment" />
+        android:label="NewsDetailsFragment" >
+        <argument
+            android:name="article"
+            app:argType="com.wrecker.newsapp.db.entity.Article" />
+        <action
+            android:id="@+id/action_newsDetailsFragment_to_errorFragment"
+            app:destination="@id/errorFragment" />
+    </fragment>
 </navigation>

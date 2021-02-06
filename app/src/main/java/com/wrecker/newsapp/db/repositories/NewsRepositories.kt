@@ -28,18 +28,29 @@ class NewsRepositories @Inject constructor(
         return flow {
             emit(Event.Loading)
             try {
-                val apiResponse = newsAPI.getNewsResponse(page = pageNumber)
-                if (apiResponse.isSuccessful){
-                    val articles = apiResponse.body()?.articles
-                    articles?.onEach {
+//                val apiResponse = newsAPI.getNewsResponse(page = pageNumber)
+//                if (apiResponse.isSuccessful){
+//                    val articles = apiResponse.body()?.articles
+//                    articles?.onEach {
+//                        articleDao.insertArticle(it)
+//                    }
+//                }else{
+//                    emit(Event.Error("Network: ERROR"))
+//                }
+//                emit(Event.Success(articleDao.getArticle())).let {
+//                    return@flow
+//                }
+
+                if (articleDao.getArticle().isEmpty()){
+                    val apiResponse = newsAPI.getNewsResponse(page = pageNumber)
+                    if (apiResponse.isSuccessful){
+                        val articles = apiResponse.body()?.articles
+                        articles?.onEach {
                         articleDao.insertArticle(it)
+                        }
                     }
-                }else{
-                    emit(Event.Error("Network: ERROR"))
                 }
-                emit(Event.Success(articleDao.getArticle())).let {
-                    return@flow
-                }
+                emit(Event.Success(articleDao.getArticle()))
             }catch (exception: Exception){
                 emit(Event.Error("Not good",exception))
             }
