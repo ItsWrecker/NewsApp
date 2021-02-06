@@ -49,7 +49,6 @@ class ArticleDaoTest {
     @Test
     fun insertArticle() = runBlockingTest {
         val article = Article(
-            id = 1,
             source = Source("Random","Random"),
             publishedAt = "Date",
             description = "Description",
@@ -61,7 +60,7 @@ class ArticleDaoTest {
         )
         articleDao.insertArticle(article)
 
-        val allArticles = articleDao.getArticle().take(1).toList().first()
+        val allArticles = articleDao.getArticle().take(1).toList()
         print(allArticles)
         /**
          * after insertion, it must contain inside the database
@@ -72,7 +71,6 @@ class ArticleDaoTest {
     @Test
     fun deleteArticle() = runBlockingTest {
         val article = Article(
-            id = 1,
             source = Source("Random","Random"),
             publishedAt = "Date",
             description = "Description",
@@ -85,8 +83,8 @@ class ArticleDaoTest {
         articleDao.insertArticle(article)
         articleDao.deleteArticle(article)
 
-        val allArticles = articleDao.getArticle().take(1).toList().first()
-        assertThat(allArticles).doesNotContain(article)
+        val articles = articleDao.getArticle()
+        assertThat(articles).isEmpty()
 
     }
 

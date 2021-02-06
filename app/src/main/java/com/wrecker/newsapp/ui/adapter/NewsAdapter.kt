@@ -12,16 +12,18 @@ import com.bumptech.glide.Glide
 import com.wrecker.newsapp.R
 import com.wrecker.newsapp.databinding.NewsItemBinding
 import com.wrecker.newsapp.db.entity.Article
+import com.wrecker.newsapp.ui.factory.BaseFragmentFactory
+import javax.inject.Inject
 
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter @Inject constructor(): RecyclerView.Adapter<NewsAdapter.ArticleViewHolder>() {
 
 
     inner class ArticleViewHolder(private val binding: NewsItemBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(article: Article) {
             with(binding){
                 newsTitle.text = article.title
-                newsDescription.text = article.description
+                newsDescription.text = article.publishedAt
                 newsAuthor.text = "Source: ${article.author?: "Unknown"}"
 
             }

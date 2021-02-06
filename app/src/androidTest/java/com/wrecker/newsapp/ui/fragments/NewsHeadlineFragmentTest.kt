@@ -1,5 +1,6 @@
 package com.wrecker.newsapp.ui.fragments
 
+import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso.onView
@@ -7,6 +8,8 @@ import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.MediumTest
 import com.wrecker.newsapp.R
+import com.wrecker.newsapp.db.entity.Article
+import com.wrecker.newsapp.db.entity.Source
 import com.wrecker.newsapp.launchFragmentInHiltContainer
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -31,14 +34,34 @@ class NewsHeadlineFragmentTest {
     @Test
     fun onclickHeadline_navigateToDetails() {
         val navController = mock(NavController::class.java)
-
+        val article = Article(
+            source = Source("Random","Random"),
+            publishedAt = "Date",
+            description = "Description",
+            content = "Content",
+            url = "url",
+            urlToImage ="urlToImage",
+            title = "title",
+            author = "author"
+        )
+        val bundle = Bundle().apply {
+            putSerializable("article", article)
+        }
         launchFragmentInHiltContainer<NewsHeadlineFragment> {
             Navigation.setViewNavController(requireView(), navController)
         }
+        /**
+         *
+         */
+        onView(withId(R.id.newPreviewImage)).perform(click())
+        verify(navController).navigate(
+            R.id.action_newsHeadlineFragment_to_newsDetailsFragment, bundle
+        )
 
-        onView(withId(R.id.nav_host_fragment_container)).perform(click())
 
+    }
 
-
+    @Test
+    fun onViewCreated() {
     }
 }

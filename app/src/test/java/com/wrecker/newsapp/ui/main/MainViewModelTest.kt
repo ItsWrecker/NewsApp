@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import com.wrecker.newsapp.MainCoroutineTestRule
 import com.wrecker.newsapp.db.repositories.FakeRepositories
 import com.wrecker.newsapp.db.repositories.NewsRepositories
+import com.wrecker.newsapp.ut.event.MainStateEvent
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 
@@ -34,8 +35,28 @@ class MainViewModelTest {
     }
 
     @Test fun getArticle() = runBlockingTest {
-        val res = viewModel.getArticle()
+        val res = viewModel.setStateEvent(MainStateEvent.GetArticle)
         assertThat(res).isNotNull()
+    }
+
+    @Test
+    fun getEvent() {
+    }
+
+    @Test
+    fun getPageNumber() {
+    }
+
+    @Test
+    fun setPageNumber() {
+    }
+
+    @Test
+    fun setStateEvent() {
+    }
+
+    @Test
+    fun showProgressBar() {
     }
 
 }

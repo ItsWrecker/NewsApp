@@ -20,12 +20,16 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.observeOn
 import timber.log.Timber
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class MainActivity @Inject constructor(
+
+): AppCompatActivity() {
 
     private val _viewModel: MainViewModel by viewModels()
     private lateinit var _binding: ActivityMainBinding
+    private val binding get() = _binding
 
 
     companion object {
@@ -36,9 +40,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        _binding = DataBindingUtil.setContentView(this, R.layout.activity_main,)
         //_viewModel.setStateEvent(MainStateEvent.GetArticle)
-        setSupportActionBar(_binding.toolbar)
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.elevation = 0F
 
         lifecycleScope.launchWhenStarted {
@@ -58,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
                     }
                     Event.Loading -> {
-                        _binding.progressBar?.visibility = View.VISIBLE
+                        binding.progressBar?.visibility = View.VISIBLE
                     }
                 }
             }

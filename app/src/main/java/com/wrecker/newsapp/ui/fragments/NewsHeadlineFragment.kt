@@ -20,12 +20,14 @@ import com.wrecker.newsapp.ut.event.Event
 import com.wrecker.newsapp.ut.event.MainStateEvent
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
     private val _viewModel: MainViewModel by viewModels()
 
-    private lateinit var newsAdapter: NewsAdapter
+    @Inject
+    lateinit var newsAdapter: NewsAdapter
     private lateinit var newsHeadlineRecyclerView: RecyclerView
     private lateinit var refreshRecyclerView: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
@@ -74,7 +76,7 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
     }
 
     private fun setupRecyclerView() {
-        newsAdapter = NewsAdapter()
+        //newsAdapter = NewsAdapter()
         newsHeadlineRecyclerView.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)

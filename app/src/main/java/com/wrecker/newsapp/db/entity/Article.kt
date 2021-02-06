@@ -7,12 +7,11 @@ import java.io.Serializable
 
 @Entity
 data class Article(
-    @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
     val author: String? =null,
     val content: String? = null,
     val description: String ? =null,
-    val publishedAt: String ? =null,
+    @PrimaryKey
+    val publishedAt: String,
     val source: Source ? =null,
     val title: String ? =null,
     val url: String ? =null,
