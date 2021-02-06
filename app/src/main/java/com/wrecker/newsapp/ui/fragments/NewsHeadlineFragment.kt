@@ -19,7 +19,11 @@ import com.wrecker.newsapp.ui.main.MainViewModel
 import com.wrecker.newsapp.ut.event.Event
 import com.wrecker.newsapp.ut.event.MainStateEvent
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -31,24 +35,24 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
     private lateinit var newsHeadlineRecyclerView: RecyclerView
     private lateinit var refreshRecyclerView: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-
+    private var pageNumber: Int = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        _viewModel.setStateEvent(MainStateEvent.GetArticle)
         newsHeadlineRecyclerView = view.findViewById(R.id.newsHeadlineRecyclerView)
         refreshRecyclerView = view.findViewById(R.id.refreshRecyclerView)
         progressBar = view.findViewById(R.id.progressBar)
         (activity as AppCompatActivity).supportActionBar?.show()
         setupRecyclerView()
-        refreshView()
         handleNavigation()
 
         lifecycleScope.launchWhenStarted {
+            refreshView()
+            _viewModel.setStateEvent(MainStateEvent.GetArticle, pageNumber)
             _viewModel.event.collect { event->
                 when(event){
                     is Event.Success -> {
-                        _viewModel.showProgressBar(progressBar,visibility = false)
+
                         newsAdapter.differ.submitList(event.value)
                         refreshRecyclerView.isRefreshing = false
                     }
@@ -75,22 +79,22 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
-    private fun setupRecyclerView() {
-        //newsAdapter = NewsAdapter()
+     private fun  setupRecyclerView() {
+
         newsHeadlineRecyclerView.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(activity)
         }
     }
 
-    private fun refreshView() {
+    private suspend fun refreshView() {
+        refreshRecyclerView.isRefreshing = true
+        pageNumber += 1
         refreshRecyclerView.setOnRefreshListener {
-            refreshRecyclerView.isRefreshing = true
-            _viewModel.pageNumber += 1
-            _viewModel.setStateEvent(MainStateEvent.GetArticle)
+            GlobalScope.launch {
+                _viewModel.setStateEvent(MainStateEvent.GetArticle, pageNumber)
+            }.start()
             refreshRecyclerView.isRefreshing = false
-
-
         }
     }
     private fun handleNavigation() {

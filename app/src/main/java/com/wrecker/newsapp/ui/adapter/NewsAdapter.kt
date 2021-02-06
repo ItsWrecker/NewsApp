@@ -23,9 +23,8 @@ class NewsAdapter @Inject constructor(): RecyclerView.Adapter<NewsAdapter.Articl
         fun bind(article: Article) {
             with(binding){
                 newsTitle.text = article.title
-                newsDescription.text = article.publishedAt
+                newsDescription.text = article.description
                 newsAuthor.text = "Source: ${article.author?: "Unknown"}"
-
             }
 
         }

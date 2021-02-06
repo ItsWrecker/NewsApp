@@ -3,7 +3,6 @@ package com.wrecker.newsapp.ui.main
 
 import android.view.View
 import android.widget.ProgressBar
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.wrecker.newsapp.db.entity.Article
@@ -27,12 +26,18 @@ class MainViewModel @Inject constructor(
 
     var pageNumber = 1
 
-     fun setStateEvent(mainStateEvent: MainStateEvent){
-         _event.value = Event.Loading
-        viewModelScope.launch {
+
+    init {
+//        viewModelScope.launch {
+//            setStateEvent(MainStateEvent.None, 0)
+//        }
+    }
+
+    suspend fun setStateEvent(mainStateEvent: MainStateEvent, page: Int) = viewModelScope.launch {
+            _event.value = Event.Loading
             when(mainStateEvent){
                 MainStateEvent.GetArticle ->{
-                    repositories.getArticle(pageNumber).onEach {
+                    repositories.getArticle(page).onEach {
                         _event.value = it
                     }.launchIn(viewModelScope)
                 }
@@ -41,10 +46,10 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
-    }
-
     fun showProgressBar(progressBar: ProgressBar, visibility: Boolean) {
         if (visibility) progressBar.visibility = View.VISIBLE
         else progressBar.visibility = View.GONE
     }
 }
+
+
