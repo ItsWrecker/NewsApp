@@ -4,6 +4,9 @@ import androidx.room.*
 import com.wrecker.newsapp.db.entity.Article
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Class to perform all local database related queries
+ */
 @Dao
 interface ArticleDao {
 

@@ -5,6 +5,9 @@ import com.wrecker.newsapp.db.entity.NewsResponse
 import javax.inject.Inject
 
 
+/**
+ * Implementation of EntityMapper
+ */
 class NetWorkMapper
 @Inject constructor() : EntityMapper<NewsResponse, Article> {
     override fun fromAPI(newsResponse: NewsResponse): List<Article> {

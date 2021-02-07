@@ -14,10 +14,16 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * Providing the references to all network request related operation
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
+    /**
+     * reference to API call
+     */
     @Provides
     @Singleton
     fun provideNewsAPI(): NewsAPI {
@@ -25,6 +31,9 @@ object NetworkModule {
             .baseUrl(BuildConfig.NEWS_API_BASE_URL).build().create(NewsAPI::class.java)
     }
 
+    /**
+     * reference to entity mapper
+     */
     @Provides
     @Singleton
     fun provideNetworkMapper(): EntityMapper<NewsResponse, Article> =  NetWorkMapper()

@@ -6,7 +6,9 @@ import androidx.room.TypeConverters
 import com.wrecker.newsapp.db.entity.Article
 import com.wrecker.newsapp.db.source.local.dao.ArticleDao
 
-
+/**
+ * Reference of local database
+ */
 @Database(
     entities = [Article::class],
     version = 5,

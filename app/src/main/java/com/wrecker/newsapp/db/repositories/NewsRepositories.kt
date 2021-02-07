@@ -1,7 +1,11 @@
+@file:Suppress("NAME_SHADOWING")
+
 package com.wrecker.newsapp.db.repositories
 
 import com.wrecker.newsapp.db.entity.Article
 import com.wrecker.newsapp.db.mapper.NetWorkMapper
+import com.wrecker.newsapp.db.source.cache.Cache
+import com.wrecker.newsapp.db.source.cache.ExpCache
 import com.wrecker.newsapp.db.source.local.dao.ArticleDao
 import com.wrecker.newsapp.db.source.remote.api.NewsAPI
 import com.wrecker.newsapp.ut.event.Event
@@ -20,7 +24,7 @@ import javax.inject.Inject
 class NewsRepositories @Inject constructor(
     private val articleDao: ArticleDao,
     private val newsAPI: NewsAPI,
-    private val netWorkMapper: NetWorkMapper
+    private val netWorkMapper: NetWorkMapper,
 ): Repository {
     override suspend fun insertArticle(article: Article): Long {
         return articleDao.insertArticle(article)
@@ -37,6 +41,26 @@ class NewsRepositories @Inject constructor(
                 val localResponse = articleDao.getArticle()
                 val remoteResponse = newsAPI.getNewsResponse(page = pageNumber)
                 val mappedRemoteResponse = netWorkMapper.fromAPI(remoteResponse.body()!!)
+//                if(localResponse.isEmpty()) {
+//                    val remoteResponse = newsAPI.getNewsResponse(page = pageNumber)
+//                    val mappedRemoteResponse = netWorkMapper.fromAPI(remoteResponse.body()!!)
+//
+//                    mappedRemoteResponse.onEach {
+//                        cache[it.publishedAt] = it
+//                        articleDao.insertArticle(it)
+//                    }
+//                    emit(Event.Success(articleDao.getArticle()))
+//                }else {
+//                    val remoteResponse = newsAPI.getNewsResponse(page = pageNumber)
+//                    val mappedRemoteResponse = netWorkMapper.fromAPI(remoteResponse.body()!!)
+//                    if (localResponse.contains(mappedRemoteResponse)){
+//                        emit(Event.Success(localResponse))
+//                    }else {
+//                        mappedRemoteResponse.onEach { article ->
+//                            articleDao.insertArticle(article)
+//                            emit(Event.Success(articleDao.getArticle()))
+//                        }
+//                    }
 
                 /**
                  * If local response already contains the remote response

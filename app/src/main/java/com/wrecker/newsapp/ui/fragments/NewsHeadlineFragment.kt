@@ -26,10 +26,16 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Displaying the top news headline: (Just basic operation) will extend to this part
+ */
 @AndroidEntryPoint
 class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
     private val _viewModel: MainViewModel by viewModels()
 
+    /**
+     * Getting the reference for adapter
+     */
     @Inject
     lateinit var newsAdapter: NewsAdapter
     private lateinit var newsHeadlineRecyclerView: RecyclerView
@@ -46,30 +52,54 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
         setupRecyclerView()
         handleNavigation()
 
+        /**
+         * Launching the coroutine for collect the flow stream data to perform UI rendering accordingly
+         */
         lifecycleScope.launchWhenStarted {
+            /**
+             * Refreshing the view every time anything gets change.
+             */
             refreshView()
+            /**
+             * sending the event to view model, requesting for data to load
+             */
             _viewModel.setStateEvent(MainStateEvent.GetArticle, pageNumber)
+            /**
+             * collecting the data emmited by domain layer
+             */
             _viewModel.event.collect { event->
                 when(event){
+                    /**
+                     * for every success full emmition it will update the adapter
+                     */
                     is Event.Success -> {
                         refreshRecyclerView.isRefreshing = true
                         newsAdapter.differ.submitList(event.value)
                         refreshRecyclerView.isRefreshing = false
                     }
+                    /**
+                     * on error received fom domain layer, navigation to the error page
+                     */
                     is Event.Error -> {
                         _viewModel.showProgressBar(progressBar, false)
                         findNavController().navigate(R.id.action_newsDetailsFragment_to_errorFragment)
                     }
+                    /**
+                     * displaying the progress bar till data is being fetched from domain layer
+                     */
                     Event.Loading -> {
                           progressBar.visibility = View.VISIBLE
                     }
                 }
             }
         }
+        /**
+         * callback for performing the onBackPress event
+         */
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 /**
-                 * Reset the resources:
+                 * Reset the resources: will update after implementing the UI Cache.
                  */
 
                 findNavController().popBackStack()
@@ -79,6 +109,9 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
         requireActivity().onBackPressedDispatcher.addCallback(callback)
     }
 
+    /**
+     * Setting up recyclerview
+     */
      private fun  setupRecyclerView() {
 
         newsHeadlineRecyclerView.apply {
@@ -87,6 +120,9 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
         }
     }
 
+    /**
+     * refreshing the recyclerview when either new data comes or user want to pull screen
+     */
     private suspend fun refreshView() = GlobalScope.launch{
         refreshRecyclerView.isRefreshing = true
         pageNumber += 1
@@ -98,6 +134,10 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
             refreshRecyclerView.isRefreshing = false
         }
     }
+
+    /**
+     * handling the navigation with [nav args]
+     */
     private fun handleNavigation() {
         newsAdapter.setOnClickListener {
             val bundle: Bundle = Bundle().apply {

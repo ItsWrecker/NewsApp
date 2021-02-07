@@ -9,6 +9,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+
+/**
+ * to provide the NewsAdapter reference
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AdapterModule {

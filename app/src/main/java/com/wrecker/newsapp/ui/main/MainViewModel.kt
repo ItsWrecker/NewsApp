@@ -22,15 +22,29 @@ class MainViewModel @Inject constructor(
     private val repositories: Repository
 ): ViewModel() {
 
+    /**
+     * container for storing the mutableStateFlow data with their state:
+     */
     private val _event = MutableStateFlow<Event<List<Article>>>(Event.Loading)
+
+    /**
+     * getter to access outside
+     */
     val event: StateFlow<Event<List<Article>>> = _event
+
     private val _eventMain = MutableStateFlow<MainStateEvent>(MainStateEvent.None)
     val eventMain: StateFlow<MainStateEvent> = _eventMain
 
-    var pageNumber = 1
+    /**
+     * to perform pagination with API && recyclerview and to reduce the data collision
+     */
+    private var pageNumber = 1
 
 
     init {
+        /**
+         * initial state init
+         */
         viewModelScope.launch {
             _eventMain.collect {
                 when(it){
@@ -49,6 +63,9 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Sending the event received UI to domain layer
+     */
     suspend fun setStateEvent(mainStateEvent: MainStateEvent, page: Int) = viewModelScope.launch {
         _event.value = Event.Loading
         pageNumber = page
@@ -67,6 +84,10 @@ class MainViewModel @Inject constructor(
                 }
             }
         }
+
+    /**
+     * displaying the progress bar: Event send by UI.
+     */
     fun showProgressBar(progressBar: ProgressBar, visibility: Boolean) {
         if (visibility) progressBar.visibility = View.VISIBLE
         else progressBar.visibility = View.GONE

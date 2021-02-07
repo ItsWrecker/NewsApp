@@ -12,5 +12,8 @@ interface Repository {
 
     suspend fun deleteArticle(article: Article)
 
+    /**
+     * Here passing the result of fun into flow: Unidirectional
+     */
     suspend fun getArticle(pageNumber: Int): Flow<Event<List<Article>>>
 }

@@ -3,7 +3,9 @@ package com.wrecker.newsapp.db.source.local.database
 import androidx.room.TypeConverter
 import com.wrecker.newsapp.db.entity.Source
 
-
+/**
+ * TO convert network response object into room supported format
+ */
 class Converters {
 
     @TypeConverter

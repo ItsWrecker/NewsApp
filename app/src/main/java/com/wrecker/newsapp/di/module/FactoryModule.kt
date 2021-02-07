@@ -13,6 +13,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object FactoryModule {
 
+    /**
+     * Fragment factory to init the fragment with newsAdapter
+     */
     @Provides
     @Singleton
     fun provideBaseFragmentFactory(

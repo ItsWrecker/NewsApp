@@ -35,12 +35,8 @@ class MainActivity @Inject constructor(
     private lateinit var _binding: ActivityMainBinding
     private val binding get() = _binding
 
-    private lateinit var navGraph: NavGraph
-
-
     companion object {
-        final val TAG: String = MainActivity::class.java.name
-
+        val TAG: String = MainActivity::class.java.name
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -78,6 +74,9 @@ class MainActivity @Inject constructor(
 //            }
         }
 
+        /**
+         * navigating to the diff screen according to data emmited by domain layer
+         */
         lifecycleScope.launchWhenStarted {
             _viewModel.eventMain.collect {
                 when(it){

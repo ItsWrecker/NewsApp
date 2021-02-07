@@ -25,18 +25,28 @@ class NewsDetailsFragment : Fragment(R.layout.fragment_news_details) {
     private val args: NewsDetailsFragmentArgs by navArgs()
     private var _binding: FragmentNewsDetailsBinding? = null
 
+    /**
+     * to store the argument sent by NewsHeadlineFragment
+     */
+    private lateinit var article: Article
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        /**
+         * binding the view with xml layout
+         */
         _binding = FragmentNewsDetailsBinding.bind(view)
-        val article: Article = args.article
+
+        article = args.article
+
         (activity as AppCompatActivity).supportActionBar?.hide()
+        /**
+         * Loading the web view
+         */
         _binding!!.webView.apply {
             webViewClient = NewsWebViewClient()
             loadUrl(article.url!!)
-            visibility = View.GONE
-
         }
         _binding!!.progressBar.visibility = View.GONE
         val callback = object : OnBackPressedCallback(true) {
@@ -51,7 +61,7 @@ class NewsDetailsFragment : Fragment(R.layout.fragment_news_details) {
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
 
-        class NewsWebViewClient : WebViewClient() {
+         class NewsWebViewClient : WebViewClient() {
 
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
@@ -64,6 +74,10 @@ class NewsDetailsFragment : Fragment(R.layout.fragment_news_details) {
                 _binding!!.webView.visibility = View.VISIBLE
 
             }
+
+            /**
+             * Navigating to error page if any occurs
+             */
             override fun onReceivedError(
                 view: WebView?,
                 request: WebResourceRequest?,
