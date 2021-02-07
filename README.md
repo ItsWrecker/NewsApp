@@ -15,5 +15,3 @@ An android application to fetch response from newsapi.org and displaying into re
 
 # TODO(In memory cache implementation, changing the XML layout to jetpack Compose)
 Will update remaining part soon, this is just a basic project setup with almost all require and core BI.
-
-####################################Happy Coding########################################################
