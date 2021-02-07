@@ -1,16 +1,27 @@
 package com.wrecker.newsapp.ui.main
 
-import org.junit.Test
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.mockito.Mockito.spy
 
-import org.junit.Assert.*
-
+@HiltAndroidTest
 class MainActivityTest {
+    private lateinit var mainActivitySpy: MainActivity
 
-    @Test
-    fun onCreate() {
+    @get:Rule
+    var hiltTestRule = HiltAndroidRule(this)
+
+
+    @Before
+    fun setup() {
+        hiltTestRule.inject()
+        mainActivitySpy = spy(MainActivity())
+    }
+    @After
+    fun tearDown() {
     }
 
-    @Test
-    fun onStart() {
-    }
 }

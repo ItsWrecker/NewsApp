@@ -1,12 +1,11 @@
 package com.wrecker.newsapp.ui.fragments
-
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebResourceError
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ProgressBar
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -17,7 +16,8 @@ import com.wrecker.newsapp.R
 import com.wrecker.newsapp.databinding.FragmentNewsDetailsBinding
 import com.wrecker.newsapp.db.entity.Article
 import com.wrecker.newsapp.ui.main.MainViewModel
-import kotlinx.coroutines.delay
+import com.wrecker.newsapp.ui.webview.NewsWebViewClient
+
 
 class NewsDetailsFragment : Fragment(R.layout.fragment_news_details) {
 
@@ -33,9 +33,10 @@ class NewsDetailsFragment : Fragment(R.layout.fragment_news_details) {
         val article: Article = args.article
         (activity as AppCompatActivity).supportActionBar?.hide()
         _binding!!.webView.apply {
-            webViewClient = WebViewClient()
+            webViewClient = NewsWebViewClient()
             loadUrl(article.url!!)
-            visibility = View.VISIBLE
+            visibility = View.GONE
+
         }
         _binding!!.progressBar.visibility = View.GONE
         val callback = object : OnBackPressedCallback(true) {
@@ -50,5 +51,28 @@ class NewsDetailsFragment : Fragment(R.layout.fragment_news_details) {
         }
         requireActivity().onBackPressedDispatcher.addCallback(callback)
 
+        class NewsWebViewClient : WebViewClient() {
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                super.onPageStarted(view, url, favicon)
+                _binding!!.progressBar.visibility = View.VISIBLE
+            }
+
+            override fun onLoadResource(view: WebView?, url: String?) {
+                super.onLoadResource(view, url)
+                _binding!!.progressBar.visibility = View.GONE
+                _binding!!.webView.visibility = View.VISIBLE
+
+            }
+            override fun onReceivedError(
+                view: WebView?,
+                request: WebResourceRequest?,
+                error: WebResourceError?
+            ) {
+                super.onReceivedError(view, request, error)
+                findNavController().navigate(R.id.action_newsDetailsFragment_to_errorFragment)
+            }
+        }
     }
 }
+

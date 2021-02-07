@@ -2,6 +2,7 @@ package com.wrecker.newsapp.di
 
 import android.content.Context
 import androidx.room.Room
+import com.wrecker.newsapp.db.source.local.dao.ArticleDao
 import com.wrecker.newsapp.db.source.local.database.NewsDatabase
 import dagger.Module
 import dagger.Provides
@@ -18,9 +19,16 @@ class TestAppModule {
     @Provides
     fun provideInMemoryDB(
         @ApplicationContext context: Context
-    )= Room.inMemoryDatabaseBuilder(
+    ) : NewsDatabase = Room.inMemoryDatabaseBuilder(
         context,
         NewsDatabase::class.java
     ).allowMainThreadQueries().build()
+
+
+    @Named("test_article_dao")
+    @Provides
+    fun provideArticleDao(
+        newsDatabase: NewsDatabase
+    ): ArticleDao = newsDatabase.getArticleDao()
 }
 

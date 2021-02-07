@@ -35,28 +35,32 @@ class MainViewModelTest {
     }
 
     @Test fun getArticle() = runBlockingTest {
-        val res = viewModel.setStateEvent(MainStateEvent.GetArticle)
+        val res = viewModel.setStateEvent(MainStateEvent.GetArticle,1)
         assertThat(res).isNotNull()
     }
 
-    @Test
-    fun getEvent() {
-    }
-
-    @Test
-    fun getPageNumber() {
-    }
-
-    @Test
-    fun setPageNumber() {
-    }
-
-    @Test
-    fun setStateEvent() {
-    }
-
-    @Test
-    fun showProgressBar() {
-    }
+//    @Test
+//    fun getEvent() {
+//    }
+//
+//    @Test
+//    fun getPageNumber() {
+//    }
+//
+//    @Test
+//    fun setPageNumber() {
+//    }
+//
+//    @Test
+//    fun setStateEvent() {
+//    }
+//
+//    @Test
+//    fun showProgressBar() {
+//    }
+//
+//    @Test
+//    fun getEventMain() {
+//    }
 
 }

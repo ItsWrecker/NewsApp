@@ -35,7 +35,7 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
     private lateinit var newsHeadlineRecyclerView: RecyclerView
     private lateinit var refreshRecyclerView: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-    private var pageNumber: Int = 0
+    private var pageNumber: Int = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,7 +52,7 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
             _viewModel.event.collect { event->
                 when(event){
                     is Event.Success -> {
-
+                        refreshRecyclerView.isRefreshing = true
                         newsAdapter.differ.submitList(event.value)
                         refreshRecyclerView.isRefreshing = false
                     }
@@ -87,13 +87,14 @@ class NewsHeadlineFragment : Fragment(R.layout.fragment_news_headlines) {
         }
     }
 
-    private suspend fun refreshView() {
+    private suspend fun refreshView() = GlobalScope.launch{
         refreshRecyclerView.isRefreshing = true
         pageNumber += 1
         refreshRecyclerView.setOnRefreshListener {
             GlobalScope.launch {
                 _viewModel.setStateEvent(MainStateEvent.GetArticle, pageNumber)
             }.start()
+
             refreshRecyclerView.isRefreshing = false
         }
     }

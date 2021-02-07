@@ -4,4 +4,5 @@ sealed class MainStateEvent {
 
     object GetArticle: MainStateEvent()
     object None: MainStateEvent()
+    object Error: MainStateEvent()
 }
