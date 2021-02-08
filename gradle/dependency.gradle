@@ -1,0 +1,124 @@
+def versions = [
+        'gradleVersion'              : '7.0.0-alpha05',
+        'minSdkVersion'              : 19,
+        'targetSdkVersion'           : 30,
+        'compileSdkVersion'          : 30,
+        'buildToolVersion'           : "30.0.3",
+        'kotlinVersion'              : '1.4.21',
+        'coroutinesVersion'          : '1.3.9',
+        'coroutinesViewModel'        : '2.2.0',
+        'ktxVersion'                 : '1.3.2',
+        'appCompactVersion'          : '1.2.0',
+        'materialVersion'            : '1.2.1',
+        'constraintlayoutVersion'    : '2.0.4',
+        'refreshVersion'             : '1.1.0',
+        'navigationVerion'           : '2.3.3',
+        'lifeCycleVersion'           : '2.2.0',
+        'roomVersion'                : '2.2.5',
+        'retrofitVersion'            : '2.9.0',
+        'navigationVersion'          : '2.3.3',
+        'multidexVersion'            : '1.0.3',
+        'hiltVersion'                : '2.31.2-alpha',
+        'hiltLifeCycleVersion'       : '1.0.0-alpha03',
+        'glideVersion'               : '4.11.0',
+        'jUnitVersion'               : '4.13.1',
+        'jUnitInstVersion'           : '1.1.1',
+        'jUnitAndroidViersion'       : '1.1.2',
+        'espressoVersion'            : '3.3.0',
+        'mockito'                    : '2.21.0',
+        'truthVersion'               : '1.0.1',
+        'archTestVersion'            : '2.1.0',
+        'coroutinesTest'             : '1.2.1',
+
+        'timber'                     : '4.7.1'
+
+
+
+]
+
+ext.versions = versions
+
+ext.deps = [
+        ktx : [
+                corektx :               "androidx.core:core-ktx:${versions.ktxVersion}",
+                activityKtx:            "androidx.activity:activity-ktx:${versions.ktxVersion}",
+                multidex:               "com.android.support:multidex:${versions.multidexVersion}"
+        ],
+
+        androidx : [
+                appcompact:             "androidx.appcompat:appcompat:${versions.appCompact}",
+                material :              "com.google.android.material:material:${versions.materialVersion}",
+                constraintlayout:       "androidx.constraintlayout:constraintlayout:${versions.constraintlayoutVersion}",
+                swipeTorefresh:          "androidx.swiperefreshlayout:swiperefreshlayout:${versions.refreshVersion}"
+
+
+        ],
+        lifeCycle: [
+                viewModel :             "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.lifeCycleVersion}",
+                lifeCycleExt:           "androidx.lifecycle:lifecycle-extensions:${versions.lifeCycleVersion}",
+                lifeCycleRuntime:       "androidx.lifecycle:lifecycle-runtime-ktx:${versions.lifeCycleVersion}",
+                liveData:               "androidx.lifecycle:lifecycle-livedata-ktx:${versions.lifeCycleVersion}",
+
+        ],
+
+        navigation : [
+                navigationFragment:     "androidx.navigation:navigation-fragment-ktx:${versions.navigationVerion}",
+                navigationUI:           "androidx.navigation:navigation-ui-ktx:${versions.navigationVerion}"
+
+        ],
+        room: [
+                room:                   "androidx.room:room-ktx:${versions.roomVersion}",
+                roomRuntime:            "androidx.room:room-runtime:${versions.roomVersion}",
+                roomCompiler:           "androidx.room:room-compiler:${versions.roomVersion}",
+        ],
+        hilt : [
+                hiltCore :              "com.google.dagger:hilt-android:${versions.hiltVersion}",
+                hiltCompiler:           "com.google.dagger:hilt-android-compiler:${versions.hiltVersion}",
+                hitlLyfeCycle:          "androidx.hilt:hilt-navigation-fragment:${versions.hiltLifeCycleVersion}",
+                hitlViewModel:          "androidx.hilt:hilt-lifecycle-viewmodel:${versions.hiltLifeCycleVersion}",
+                hitlLifeCycleCompiler:  "androidx.hilt:hilt-compiler:${versions.hiltLifeCycleVersion}",
+                workManger:             "androidx.hilt:hilt-work:${versions.hiltLifeCycleVersion}",
+                workMangerCompliler:    "androidx.hilt:hilt-compiler:${versions.hiltLifeCycleVersion}"
+
+        ],
+        retrofit: [
+                retrofit:               "com.squareup.retrofit2:retrofit:${versions.retrofitVersion}",
+                gsonConverter:          "com.squareup.retrofit2:converter-gson:${versions.retrofitVersion}"
+        ],
+        coroutines: [
+                coroutines:             "org.jetbrains.kotlinx:kotlinx-coroutines-core:${versions.coroutinesVersion}",
+                coroutinesAndroid:      "org.jetbrains.kotlinx:kotlinx-coroutines-android:${versions.coroutinesVersion}",
+                coroutinesViewModel:    "androidx.lifecycle:lifecycle-viewmodel-ktx:${versions.coroutinesViewModel}",
+                coroutinesRuntime:      "androidx.lifecycle:lifecycle-runtime-ktx:${versions.coroutinesViewModel}"
+        ],
+        test: [
+                androidTestCore:        "androidx.test:core:1.2.0",
+                jUnit:                  "junit:junit:${versions.jUnitVersion}",
+                jUnitAndroid:           "androidx.test.ext:junit:${versions.jUnitAndroidViersion}",
+                jUnitIns:               "androidx.test.ext:junit${versions.jUnitInstVersion}",
+                espresso:               "androidx.test.espresso:espresso-core:${versions.espressoVersion}",
+                navigation:             "androidx.navigation:navigation-testing:${versions.navigationVerion}",
+                mockito:                "org.mockito:mockito-core:${versions.mockito}",
+                truth:                  "com.google.truth:truth:${versions.truthVersion}",
+                archTest:               "androidx.arch.core:core-testing:${versions.archTestVersion}",
+                coroutinesTest:         "org.jetbrains.kotlinx:kotlinx-coroutines-test:${versions.coroutinesTest}",
+                hamcrest:               "org.hamcrest:hamcrest-all:1.3",
+                robolectric:            "org.robolectric:robolectric:4.3.1",
+                dexmaker:               "com.linkedin.dexmaker:dexmaker-mockito:2.12.1",
+                junitExt:               "androidx.test.ext:junit:1.1.2"
+
+
+        ],
+        glide: [
+                // Glide
+                glide:                   "com.github.bumptech.glide:glide:${versions.glideVersion}",
+                glideCompiler:           "com.github.bumptech.glide:compiler:${versions.glideVersion}"
+
+        ],
+        timber: [
+                timber:                 "com.jakewharton.timber:timber:${versions.timber}"
+        ]
+
+]
+
+
